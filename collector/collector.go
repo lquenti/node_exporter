@@ -17,6 +17,7 @@ package collector
 import (
 	"errors"
 	"fmt"
+	"runtime"
 
 	//"runtime"
 	"sync"
@@ -147,8 +148,12 @@ func (n NodeCollector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect implements the prometheus.Collector interface.
 func (n NodeCollector) Collect(ch chan<- prometheus.Metric) {
+	_, file, no, ok := runtime.Caller(1)
+	if ok {
+		fmt.Printf("called from %s#%d\n", file, no)
+	}
 	// BENCHMARK BEGIN
-	N := 2
+	N := 1
 	// record the time
 	totalStart := time.Now()
 	for i := 0; i < N; i++ {
@@ -160,11 +165,6 @@ func (n NodeCollector) Collect(ch chan<- prometheus.Metric) {
 }
 
 func (n NodeCollector) RealCollect(ch chan<- prometheus.Metric) {
-	//fmt.Println("collect function was called")
-	//_, file, no, ok := runtime.Caller(1)
-	//if ok {
-	//	fmt.Printf("called from %s#%d\n", file, no)
-	//}
 	wg := sync.WaitGroup{}
 	wg.Add(len(n.Collectors))
 	for name, c := range n.Collectors {

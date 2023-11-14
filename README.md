@@ -37,3 +37,25 @@ The main difficulty of the microbenchmarking is getting the whole initial state 
 
 
 Instead, we start `node_exporter` normally, call `/metrics` once and then benchmark `collector.go::NodeCollector.Collect` in that running process :D
+
+## INSTALL
+
+we get a bunch of errors if we try to reinsert the same `/proc` values into the internal metrics hashmap again. Unfortunately, those errors could very much impact the measured performance. Thus, we have to patch them out and allow for bad inserts.
+
+I couldn't manage to fork and replace [`prometheus/client_golang`](https://github.com/prometheus/client_golang), so please patch it yourself:
+
+0. Install all dependencies and do an initial build: `make build`
+1. Search for `"collected metric %q { %s} was collected before with the same name and label values"` in your `~/go/pkg`. For me, it shouwed to
+   `pkg/mod/github.com/prometheus/client_golang@v1.17.0/prometheus/registry.go:942` in the function `checkMetricConsistency`
+   It looks something like
+   ```
+if _, exists := metricHashes[hSum]; exists {
+  return fmt.Errorf(
+    "collected metric %q { %s} was collected before with the same name and label values",
+     name, dtoMetric,
+  )
+}
+   ```
+   Comment out the return.
+2. rebuild: `make build`
+   you can find out whether it worked by adding a print somewhere there :)
