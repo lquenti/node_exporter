@@ -147,6 +147,19 @@ func (n NodeCollector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect implements the prometheus.Collector interface.
 func (n NodeCollector) Collect(ch chan<- prometheus.Metric) {
+	// BENCHMARK BEGIN
+	N := 2
+	// record the time
+	totalStart := time.Now()
+	for i := 0; i < N; i++ {
+		n.RealCollect(ch)
+	}
+	totalEnd := time.Now()
+	fmt.Println("\n\n\n\n\ntotal time: ", totalEnd.Sub(totalStart).Milliseconds())
+	fmt.Println("average time: ", totalEnd.Sub(totalStart).Milliseconds()/int64(N))
+}
+
+func (n NodeCollector) RealCollect(ch chan<- prometheus.Metric) {
 	//fmt.Println("collect function was called")
 	//_, file, no, ok := runtime.Caller(1)
 	//if ok {
