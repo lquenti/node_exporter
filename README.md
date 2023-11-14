@@ -2,7 +2,13 @@
 
 Notes to myself:
 
-Call stack CPU (`/proc`):
+## Versions:
+We have two versions:
+
+- `main`: benchmarks all iterations without taking measurements to get maximum throughput
+- `precise`: takes a measurement between each metric collect, thus reducing overall performance. Useful to get latency jitter.
+
+## Call stack CPU (`/proc`):
 
 ```
 cpu_linux.go::cpuCollector.Update
