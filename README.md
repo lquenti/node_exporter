@@ -2,6 +2,12 @@
 
 Notes to myself:
 
+## performance tuning
+
+```
+--runtime.gomaxprocs=1     The target number of CPUs Go will run on (GOMAXPROCS) ($GOMAXPROCS)
+```
+
 ## Versions:
 We have two versions:
 
