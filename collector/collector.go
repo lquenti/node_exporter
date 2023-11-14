@@ -153,15 +153,15 @@ func (n NodeCollector) Collect(ch chan<- prometheus.Metric) {
 		fmt.Printf("called from %s#%d\n", file, no)
 	}
 	// BENCHMARK BEGIN
-	N := 1
+	N := 100
 	// record the time
 	totalStart := time.Now()
 	for i := 0; i < N; i++ {
 		n.RealCollect(ch)
 	}
 	totalEnd := time.Now()
-	fmt.Println("\n\n\n\n\ntotal time: ", totalEnd.Sub(totalStart).Milliseconds())
-	fmt.Println("average time: ", totalEnd.Sub(totalStart).Milliseconds()/int64(N))
+	fmt.Println("total time: ", totalEnd.Sub(totalStart).Milliseconds())
+	fmt.Println("average time: ", float64(totalEnd.Sub(totalStart).Milliseconds())/float64(N))
 }
 
 func (n NodeCollector) RealCollect(ch chan<- prometheus.Metric) {
