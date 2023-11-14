@@ -167,6 +167,7 @@ func (c *cpuCollector) compileIncludeFlags(flagsIncludeFlag, bugsIncludeFlag *st
 
 // Update implements Collector and exposes cpu related metrics from /proc/stat and /sys/.../cpu/.
 func (c *cpuCollector) Update(ch chan<- prometheus.Metric) error {
+	fmt.Println("Update function was called")
 	if *enableCPUInfo {
 		if err := c.updateInfo(ch); err != nil {
 			return err

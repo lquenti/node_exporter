@@ -197,7 +197,10 @@ func main() {
 	runtime.GOMAXPROCS(*maxProcs)
 	level.Debug(logger).Log("msg", "Go MAXPROCS", "procs", runtime.GOMAXPROCS(0))
 
+	// ACCESS THE LOGGER
 	http.Handle(*metricsPath, newHandler(!*disableExporterMetrics, *maxRequests, logger))
+
+	// LANDING PAGE
 	if *metricsPath != "/" {
 		landingConfig := web.LandingConfig{
 			Name:        "Node Exporter",
