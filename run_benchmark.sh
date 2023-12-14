@@ -6,7 +6,7 @@ rm -rf ./results
 mkdir ./results
 
 echo "Starting"
-./node_exporter > results/node_exporter.log 2>&1 &
+./node_exporter.sh > results/node_exporter.log 2>&1 &
 PID=$!
 sleep 5
 
