@@ -153,7 +153,7 @@ func (n NodeCollector) Collect(ch chan<- prometheus.Metric) {
 		fmt.Printf("called from %s#%d\n", file, no)
 	}
 	// BENCHMARK BEGIN
-	N := 100
+	N := 1000
 	// record the time
 	totalStart := time.Now()
 	for i := 0; i < N; i++ {
